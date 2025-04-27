@@ -20,25 +20,25 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import DottedSeparator from '@/components/dotted-separator'
-
-const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1, "Required")
-})
+import { loginSchema } from "../schema"
+import { useLogin } from "../api/use-login"
 
 const SignInCard = () => {
+    const { mutate } = useLogin();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof loginSchema>>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: ""
         }
-    })
+    });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log({values})
-    }
+    const onSubmit = (values: z.infer<typeof loginSchema>) => {
+        mutate({
+            json: values
+        })
+    };
 
     return (
         <Card className="w-full h-full md:w-[487px] border-none shadow-none">
