@@ -21,17 +21,14 @@ import {
 import DottedSeparator from '@/components/dotted-separator'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-
-const formSchema = z.object({
-    name: z.string().trim().min(1, "Required"),
-    email: z.string().email(),
-    password: z.string().min(8, "Minimum 8 characters")
-})
+import { registerSchema } from '../schema'
+import { useRegister } from '../api/use-register'
 
 const SignUpCard = () => {
+    const { mutate } = useRegister();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof registerSchema>>({
+        resolver: zodResolver(registerSchema),
         defaultValues: {
             name: "",
             email: "",
@@ -39,8 +36,10 @@ const SignUpCard = () => {
         }
     })
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log({values})
+    const onSubmit = (values: z.infer<typeof registerSchema>) => {
+        mutate({
+            json: values
+        })
     }
 
     return (
