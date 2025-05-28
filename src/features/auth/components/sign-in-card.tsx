@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,7 +26,7 @@ import { loginSchema } from "../schema"
 import { useLogin } from "../api/use-login"
 
 const SignInCard = () => {
-    const { mutate } = useLogin();
+    const { mutate, isPending } = useLogin();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -61,6 +63,7 @@ const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="email"
                                             placeholder='Enter email address'
                                         />
@@ -77,6 +80,7 @@ const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="password"
                                             placeholder='Enter password'
                                         />
@@ -86,7 +90,7 @@ const SignInCard = () => {
                             )}
                         />
                         <Button
-                            disabled={false}
+                            disabled={isPending}
                             size="lg"
                             className='w-full'
                         >
@@ -100,7 +104,7 @@ const SignInCard = () => {
             </div>
             <CardContent className='p-7 flex flex-col gap-y-5'>
                 <Button
-                    disabled={false}
+                    disabled={isPending}
                     variant="secondary"
                     size="lg"
                     className='w-full'
@@ -109,7 +113,7 @@ const SignInCard = () => {
                     Login with Google
                 </Button>
                 <Button
-                    disabled={false}
+                    disabled={isPending}
                     variant="secondary"
                     size="lg"
                     className='w-full'

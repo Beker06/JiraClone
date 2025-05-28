@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link'
 import { z } from "zod"
 import { useForm } from 'react-hook-form'
@@ -25,7 +27,7 @@ import { registerSchema } from '../schema'
 import { useRegister } from '../api/use-register'
 
 const SignUpCard = () => {
-    const { mutate } = useRegister();
+    const { mutate, isPending } = useRegister();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -73,6 +75,7 @@ const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="text"
                                             placeholder='Enter your name'
                                         />
@@ -89,6 +92,7 @@ const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="email"
                                             placeholder='Enter email address'
                                         />
@@ -105,6 +109,7 @@ const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="password"
                                             placeholder='Enter password'
                                         />
@@ -114,7 +119,7 @@ const SignUpCard = () => {
                             )}
                         />
                         <Button
-                            disabled={false}
+                            disabled={isPending}
                             size="lg"
                             className='w-full'
                         >
@@ -128,7 +133,7 @@ const SignUpCard = () => {
             </div>
             <CardContent className='p-7 flex flex-col gap-y-5'>
                 <Button
-                    disabled={false}
+                    disabled={isPending}
                     variant="secondary"
                     size="lg"
                     className='w-full'
@@ -137,7 +142,7 @@ const SignUpCard = () => {
                     Sign up with Google
                 </Button>
                 <Button
-                    disabled={false}
+                    disabled={isPending}
                     variant="secondary"
                     size="lg"
                     className='w-full'
